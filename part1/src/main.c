@@ -9,9 +9,25 @@
 
 static ucontext_t ctx;
 
-static void conjecture(int len, void* options, int sz, void fn(void*)); // Create context and start traversal
+// Create context and start traversal
+static void conjecture(int len, void* options, int sz, void fn(void*)) {
+    ucontext_t curr_ctx;
+    getcontext(&curr_ctx);
 
-void assert(bool b); // Restore context if condition fails
+    curr_ctx.uc_link = &ctx;
+    curr_ctx.uc_stack.ss_sp = malloc(len * sz);
+    curr_ctx.uc_stack.ss_size = len;
+
+    makecontext(&curr_ctx, (void (*)(void))fn, len, &options);
+    swapcontext(&ctx, &curr_ctx);
+}
+
+// Restore context if condition fails
+void assert(bool b) {
+    if (!b) {
+        setcontext(&ctx);
+    }
+}
 
 bool is_prime(int x) {
 	for(int i = 2; i <= x/2; i ++) {
