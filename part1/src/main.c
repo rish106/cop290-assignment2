@@ -10,16 +10,16 @@
 static ucontext_t ctx;
 
 // Create context and start traversal
-static void conjecture(int len, void* options, int sz, void fn(void*)) {
-    ucontext_t curr_ctx;
-    getcontext(&curr_ctx);
-
-    curr_ctx.uc_link = &ctx;
-    curr_ctx.uc_stack.ss_sp = malloc(len * sz);
-    curr_ctx.uc_stack.ss_size = len;
-
-    makecontext(&curr_ctx, (void (*)(void))fn, len, &options);
-    swapcontext(&ctx, &curr_ctx);
+static void conjecture(int len, void* options, int sz, void fn(void*)){
+    if (len == 0) {
+        return;
+    }
+    getcontext(&ctx);
+    ctx.uc_stack.ss_sp = malloc(MEM);
+    ctx.uc_stack.ss_size = MEM;
+    ctx.uc_link = NULL;
+    makecontext(&ctx, (void (*)(void))conjecture , 4, len - 1, options + sz, sz, fn);
+    fn(options);
 }
 
 // Restore context if condition fails
