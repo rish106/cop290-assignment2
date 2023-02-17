@@ -7,19 +7,27 @@ int main(int argc, char** argv){
     printf("Testing list!\n");
     struct list* l = list_new();
 
+    // printf("list head %d\n", *(int*)(l->head->data));
+
     int v = 5;
     struct listentry* n = list_add(l, &v);
     int* d = (int *) n->data;
     printf("count %d\n", *d);
     printf("non-empty: %d\n", is_empty(l));
 
+    printf("list head %d\n", *(int*)(l->head->data));
+
     int v1 = 6;
     struct listentry* n1 = list_add(l, &v1);
     int * d1 = (int*) n1->data;
     printf("count %d\n", *d1);
 
+    printf("list head %d\n", *(int*)(l->head->data));
+
     list_rm(l, n);
     list_rm(l, n1);
+
+    // printf("list head %d\n", *(int*)(l->head->data));
 
     printf("empty: %d\n", is_empty(l));
     printf("Testing list done!\n\n");

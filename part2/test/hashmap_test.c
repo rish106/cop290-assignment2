@@ -1,10 +1,9 @@
-
 #include <stdio.h>
-#include "hm.h"
-#include "list.h"
+#include "../include/hm.h"
+#include "../include/list.h"
 #include <stdlib.h>
 #include <string.h>
-#include "mythread.h"
+#include "../include/mythread.h"
 
 struct hashmap_s hashmap;
 
@@ -36,7 +35,10 @@ int main(int argc, char** argv) {
     int* c2 = (int*) malloc(sizeof(int));
     *c2 = 2;
     hashmap_put(&hashmap, key2, c2);
+    printf("\nNext print\n");
     hashmap_iterator(&hashmap, printer);
+
+    printf("%d\n", *(int*)hashmap_get(&hashmap, key));
     printf("Testing hashmap done!\n\n");
 
     return 0;
