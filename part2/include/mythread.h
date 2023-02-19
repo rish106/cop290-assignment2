@@ -62,6 +62,7 @@ struct lock {
 struct lock* lock_new() {
     struct lock* lk = (struct lock*) malloc(sizeof(struct lock));
     lk->ctx = NULL;
+    return lk;
 }
 
 // Set lock. Yield if lock is acquired by some other thread.
