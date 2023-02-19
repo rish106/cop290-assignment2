@@ -30,7 +30,7 @@ ucontext_t* mythread_create(void func(void*), void* arg) {
     ctx->uc_stack.ss_size = MEM;
     makecontext(ctx, (void (*)(void))func, 1, arg);
     list_add(l, ctx);
-    curr_ctx->next = l->head;
+    // curr_ctx->next = l->head;
     return ctx;
 }
 
@@ -42,7 +42,7 @@ void mythread_join() {
         curr_ctx = e;
         swapcontext(&main_ctx, (ucontext_t*)(e->data));
         e = e->next;
-        if (e == NULL) {
+        if (e == NULL){
             list_rm(l, l->head);
         } else {
             list_rm(l, e->prev);
@@ -59,6 +59,7 @@ void mythread_yield() {
         curr_ctx = l->head;
     }
     swapcontext((ucontext_t*)(prev_ctx->data), (ucontext_t*)(curr_ctx->data));
+    free(prev_ctx);
 }
 
 struct lock {
