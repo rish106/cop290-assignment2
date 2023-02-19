@@ -30,6 +30,7 @@ ucontext_t* mythread_create(void func(void*), void* arg) {
     ctx->uc_stack.ss_size = MEM;
     makecontext(ctx, (void (*)(void))func, 1, arg);
     list_add(l, ctx);
+    curr_ctx->next = l->head;
     return ctx;
 }
 
@@ -37,21 +38,27 @@ ucontext_t* mythread_create(void func(void*), void* arg) {
 void mythread_join() {
     struct listentry* e = l->head;
     // setcontext((ucontext_t*)(e->data));
-    while (e != NULL) {
-        curr_ctx->data = e->data;
+    while (!is_empty(l)) {
+        curr_ctx = e;
         swapcontext(&main_ctx, (ucontext_t*)(e->data));
         e = e->next;
+        if (e == NULL) {
+            list_rm(l, l->head);
+        } else {
+            list_rm(l, e->prev);
+        }
     }
 }
 
 // Perform context switching here
 void mythread_yield() {
-    struct listentry* next_ctx = curr_ctx->next;
-    if (next_ctx == NULL) {
-        next_ctx = l->head;
+    struct listentry* prev_ctx = listentry_new();
+    prev_ctx->data = curr_ctx->data;
+    curr_ctx = curr_ctx->next;
+    if (curr_ctx == NULL) {
+        curr_ctx = l->head;
     }
-    swapcontext((ucontext_t*)(curr_ctx->data), (ucontext_t*)(next_ctx->data));
-    curr_ctx->data = next_ctx->data;
+    swapcontext((ucontext_t*)(prev_ctx->data), (ucontext_t*)(curr_ctx->data));
 }
 
 struct lock {
