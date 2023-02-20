@@ -25,14 +25,11 @@ unsigned int hash(const char *key) {
 
 // Initialize a hashmap
 int hashmap_create(struct hashmap_s *const out_hashmap) {
-    if (out_hashmap == NULL) {
-        return -1;
-    }
     for (int i = 0; i < SZ; i++) {
         out_hashmap->table[i] = list_new();
         out_hashmap->lk[i] = lock_new();
     }
-    return 0;
+    return 1;
 }
 
 // Set value of the key as data in hashmap. You can use any method to resolve conflicts. Also write your own hashing function
@@ -48,10 +45,11 @@ int hashmap_put(struct hashmap_s *const hashmap, const char* key, void* data) {
     }
     struct hashmap_element_s* new_item = (struct hashmap_element_s*)malloc(sizeof(struct hashmap_element_s));
     char* k = (char*)malloc(25*sizeof(char));
-    strcpy(k, key);
+    strcpy(k,key);
     new_item->key = (char*)k;
     new_item->data = data;
     list_add(hashmap->table[hash(key)], new_item);
+
     return 1;
 }
 

@@ -1,0 +1,151 @@
+\documentclass{article}
+\title{Report}
+\author{COP290, Assignment 2}
+\date{2021CS10099, 2021CS10097, 2021CS10581}
+\maketitle
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usepackage{pgfplots}
+
+\begin{document}
+
+\section{Size Vs Runtime}
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [name=plot, xlabel={x (kB)},ylabel={y (seconds)},
+    ymin=0,ymax=1.6]
+    \addplot[black,mark=triangle*] table{black_par.txt};\label{parallel}
+    \addplot[red,mark=o] table{red_conc.txt};\label{concurrent}
+
+
+    \end{axis}
+ 
+    \node[anchor=north,fill=white,draw=black] (legend) at ($(plot.north)-(0 mm, 1 mm)$) {\begin{tabular}{l l l l}
+        parallel & \ref{parallel}  & concurrent & \ref{concurrent} \\
+
+    \end{tabular} };
+
+    
+    \end{tikzpicture}
+    \caption{Size Vs Runtime}
+    \label{fig:my_label}
+\end{figure}
+
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}
+    [name=plot, xlabel={x (kB)},ylabel={y (seconds)},
+    ymin=0,ymax=1.6]
+    \addplot[black,mark=triangle*] table{parralel_black.txt};\label{parallel}
+    \addplot[red,mark=o] table{concurrent_red.txt};\label{concurrent}
+
+
+    \end{axis}
+ 
+    \node[anchor=north,fill=white,draw=black] (legend) at ($(plot.north)-(0 mm, 1 mm)$) {\begin{tabular}{l l l l}
+        parallel & \ref{parallel}  & concurrent & \ref{concurrent} \\
+
+    \end{tabular} };
+
+    
+    \end{tikzpicture}
+    \caption{No. of Files Vs Runtime}
+    \label{fig:my_label}
+\end{figure}
+
+
+\section{Size Vs Runtime}
+% \usepackage{multirow}
+
+\begin{tabular}{ |p{1cm}|p{2cm}|p{4cm}|p{3cm}| }
+ \hline
+ \multicolumn{4}{|c|}{Data point} \\
+ \hline
+ S.No.& File Size &Run Time(Concurrent)&Run Time(Parallel)\\
+ \hline
+1   & 75 kB    & 0.003685 sec &  0.0043 sec  \\
+\hline
+2   &  816kB  & 0.084627 sec & 0.13252 sec \\
+\hline
+3   & 2458kB     & 0.466985 sec & 0.8133 sec \\
+\hline
+4   &   7058 kB   & 1.024 sec& 1.609 sec \\
+\hline
+5   &   10380 & 1.532 sec & 1.341 sec\\
+
+ \hline
+\end{tabular}
+
+\section{No. of Files Vs Runtime}
+\begin{tabular}{ |p{1cm}|p{2cm}|p{4cm}|p{3cm}| }
+ \hline
+ \multicolumn{4}{|c|}{Data point} \\
+ \hline
+ S.No.& No. of Files &Run Time(Concurrent)&Run Time(Parallel)\\
+ \hline
+1   & 4    & 0.423 sec & 0.545 sec   \\
+\hline
+2   &  5  & 0.502 sec & 0.538 sec \\
+\hline
+3   & 6     & 0.522 sec & 0.641 sec\\
+\hline
+4   &7     & 0.775 sec & 0.728 sec \\
+\hline
+5   &   8 & 0.974 sec & 0.838 sec\\
+\hline
+6   & 9    & 1.201 sec & 0.918 sec \\
+\hline
+7   & 10    & 1.558 sec & 1.334 sec \\
+ \hline
+\end{tabular}
+
+
+\section{Tokens}
+\begin{tabular}{ |p{1cm}|p{3cm}|p{2cm}| }
+ \hline
+ \multicolumn{3}{|c|}{Tokens} \\
+ \hline
+ S.No.& Name&Token\\
+ \hline
+1   & Rishabh Verma    & 13   \\
+\hline
+2   &   Sharad Kumar & 7  \\
+\hline
+3   & Bedanta Bhaumik    & 10  \\
+
+
+ \hline
+\end{tabular}
+
+
+\section{Work Done}
+\begin{tabular}{ |p{1cm}|p{3cm}|p{8cm}| }
+ \hline
+ \multicolumn{3}{|c|}{Tokens} \\
+ \hline
+ S.No.& Name&Work\\
+ \hline
+1   & Rishabh Verma    &  Implemented hashmap, threading library and locks in part 2, ran tests in comparative analysis in part 3 \\
+\hline
+2   &   Sharad Kumar &  Report writting and Research  \\
+\hline
+3   & Bedanta Bhaumik    &Completed part 1, implemented linked list, helped in debugging threading library in part 2, wrote doxygen comments  \\
+
+
+ \hline
+\end{tabular}
+
+\section{Analysis}
+The findings of the experiment show two main observations. Firstly, for the majority of input files, the runtime for parallelism was shorter than that for concurrency, which is expected as parallel computing uses parallel multithreading to perform multiple computations simultaneously. Secondly, for smaller file sizes or smaller numbers of input files, the performance of concurrency was better than parallelism due to the fact that the parallel computation required certain libraries to be included. The time taken to include these libraries diminished the effect of parallelism for small inputs, but for larger inputs, the faster computation compensated for the time taken to include libraries.
+\end{document}
+
+
