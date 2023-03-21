@@ -30,7 +30,7 @@ p2-main:
 
 p3:
 	if [ ! -d part3/obj ]; then mkdir part3/obj; fi
-	gcc -g3 -o part3/obj/main.o part3/test/main.c part3/src/hm.c part3/src/list.c part3/src/mythread.c -I part3/include/ -pthread
+	gcc -o part3/obj/main.o part3/test/main.c part3/src/hm.c part3/src/list.c part3/src/mythread.c -I part3/include/ -pthread
 	./part3/obj/main.o $(arg1) $(arg2) $(arg3) $(arg4)
 
 report:
